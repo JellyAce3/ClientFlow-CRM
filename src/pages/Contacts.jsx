@@ -37,6 +37,17 @@ function Contacts() {
     setEditingContact(null);
     setShowModal(false);
   };
+  const handleDeleteContact = (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this contact?",
+    );
+
+    if (!confirmed) return;
+
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id),
+    );
+  };
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -49,7 +60,8 @@ function Contacts() {
         <button
           onClick={() => {
             setEditingContact(null);
-            setShowModal(true)}}
+            setShowModal(true);
+          }}
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-lg"
         >
           + Add Contact
@@ -58,7 +70,11 @@ function Contacts() {
 
       <SearchBar />
 
-      <ContactList contacts={contacts} onEdit={handleEditContact} />
+      <ContactList
+        contacts={contacts}
+        onEdit={handleEditContact}
+        onDelete={handleDeleteContact}
+      />
 
       {showModal && (
         <ContactForm

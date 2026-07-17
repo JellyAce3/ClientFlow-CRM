@@ -4,11 +4,15 @@ import { FaHome, FaUsers } from "react-icons/fa";
 function Sidebar() {
   return (
     <aside className="w-64 bg-white shadow-lg">
-      <div className="p-6 border-b">
-        <h1 className="text-2xl font-bold text-indigo-600">
-          ClientFlow CRM
-        </h1>
-      </div>
+     <header className="h-16 bg-white shadow flex items-center px-8">
+  <h1 className="text-3xl font-extrabold tracking-tight">
+    <span className="text-indigo-600">Client</span>
+    <span className="text-slate-900">Flow</span>
+    <span className="text-gray-400 ml-2 text-base font-semibold uppercase tracking-widest">
+      CRM
+    </span>
+  </h1>
+</header>
 
       <nav className="p-4">
         <NavLink

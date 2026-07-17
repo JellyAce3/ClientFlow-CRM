@@ -1,7 +1,7 @@
 import ContactRow from "./ContactRow";
 
 
-function ContactList({ contacts, onEdit}) {
+function ContactList({ contacts, onEdit, onDelete}) {
   return (
     <div className="bg-white rounded-xl shadow border overflow-hidden">
       <table className="w-full">
@@ -21,6 +21,7 @@ function ContactList({ contacts, onEdit}) {
               key={contact.id}
               contact={contact}
                onEdit={onEdit}
+               onDelete={onDelete}
             />
           ))}
         </tbody>

@@ -1,6 +1,6 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-function ContactRow({ contact, onEdit }) {
+function ContactRow({ contact, onEdit, onDelete }) {
   const initials = contact.name
     .split(" ")
     .map((word) => word[0])
@@ -44,7 +44,11 @@ function ContactRow({ contact, onEdit }) {
             <FaEdit />
           </button>
 
-          <button className="text-red-600 hover:text-red-800">
+          <button
+  onClick={() => onDelete(contact.id)}
+  className="text-red-600"
+>
+
             <FaTrash />
           </button>
         </div>
