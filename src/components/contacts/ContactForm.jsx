@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ContactForm({ onClose, onSave, editingContact }) {
-  const [formData, setFormData] = useState(
-    editingContact || {
-      name: "",
-      company: "",
-      email: "",
-      phone: "",
-      status: "Lead",
-    },
-  );
+  const emptyForm = {
+    id: null,
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    status: "Lead",
+  };
+  const [formData, setFormData] = useState(emptyForm);
+
+  useEffect(() => {
+    if (editingContact) {
+      setFormData(editingContact);
+    } else {
+      setFormData(emptyForm);
+    }
+  }, [editingContact]);
 
   const handleChange = (e) => {
     setFormData({
@@ -31,12 +39,15 @@ function ContactForm({ onClose, onSave, editingContact }) {
     }
 
     onSave(formData);
+    setFormData(emptyForm);
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-lg rounded-xl shadow-xl p-6">
-        <h2 className="text-2xl font-bold mb-6">Add New Contact</h2>
+        <h2 className="text-2xl font-bold mb-6">
+          {editingContact ? "Edit Contact" : "Add New Contact"}
+        </h2>
 
         <div className="space-y-4">
           <input
@@ -98,9 +109,7 @@ function ContactForm({ onClose, onSave, editingContact }) {
             onClick={handleSubmit}
             className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700"
           >
-            {editingContact
-            ? "Update Contact"
-            :"Save Contact"}
+            {editingContact ? "Update Contact" : "Save Contact"}
           </button>
         </div>
       </div>

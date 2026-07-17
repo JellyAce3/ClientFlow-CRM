@@ -47,7 +47,9 @@ function Contacts() {
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setEditingContact(null);
+            setShowModal(true)}}
           className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-lg"
         >
           + Add Contact
@@ -60,15 +62,12 @@ function Contacts() {
 
       {showModal && (
         <ContactForm
-          onClose={() =>{
+          onClose={() => {
             setShowModal(false);
-            setEditingContact(null);} 
-            }
-            editingContact={editingContact}
-          onSave={
-            editingContact
-            ? handleUpdateContact
-            : handleAddContact}
+            setEditingContact(null);
+          }}
+          editingContact={editingContact}
+          onSave={editingContact ? handleUpdateContact : handleAddContact}
         />
       )}
     </div>
