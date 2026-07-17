@@ -8,7 +8,11 @@ function Contacts() {
   const [showModal, setShowModal] = useState(false);
   const [contacts, setContacts] = useState(initialContacts);
   const [editingContact, setEditingContact] = useState(null);
-  // ✅ Place it here
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("newest");
+
+
   const handleAddContact = (newContact) => {
     setContacts((prevContacts) => [
       ...prevContacts,
@@ -48,6 +52,35 @@ function Contacts() {
       prevContacts.filter((contact) => contact.id !== id),
     );
   };
+
+ const filteredContacts = contacts
+  .filter((contact) => {
+    const matchesSearch =
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All" || contact.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  })
+  .sort((a, b) => {
+    switch (sortBy) {
+      case "name-asc":
+        return a.name.localeCompare(b.name);
+
+      case "name-desc":
+        return b.name.localeCompare(a.name);
+
+      case "company":
+        return a.company.localeCompare(b.company);
+
+      case "newest":
+      default:
+        return b.id - a.id;
+    }
+  });
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -68,12 +101,41 @@ function Contacts() {
         </button>
       </div>
 
-      <SearchBar />
+      <div className="flex gap-4">
+  <div className="flex-1">
+    <SearchBar
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+    />
+  </div>
+
+  <select
+    value={statusFilter}
+    onChange={(e) => setStatusFilter(e.target.value)}
+    className="border rounded-lg px-4 py-3"
+  >
+    <option value="All">All</option>
+    <option value="Lead">Lead</option>
+    <option value="Client">Client</option>
+  </select>
+
+  <select
+    value={sortBy}
+    onChange={(e) => setSortBy(e.target.value)}
+    className="border rounded-lg px-4 py-3"
+  >
+    <option value="newest">Newest</option>
+    <option value="name-asc">Name (A-Z)</option>
+    <option value="name-desc">Name (Z-A)</option>
+    <option value="company">Company</option>
+  </select>
+</div>
 
       <ContactList
-        contacts={contacts}
+        contacts={filteredContacts}
         onEdit={handleEditContact}
         onDelete={handleDeleteContact}
+
       />
 
       {showModal && (
