@@ -1,19 +1,24 @@
-import React from "react";
-
-function StatsCard({ title, value, icon, color }) {
+function StatsCard({
+  title,
+  value,
+  icon,
+  color,
+}) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 border">
-      <div className="flex justify-between items-center">
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-slate-700 dark:bg-slate-900">
+      <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-500 text-sm">{title}</p>
+          <p className="text-sm font-medium text-gray-500 dark:text-slate-400">
+            {title}
+          </p>
 
-          <h2 className="text-3xl font-bold mt-2">
+          <h2 className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">
             {value}
           </h2>
         </div>
 
         <div
-          className={`w-14 h-14 rounded-full flex items-center justify-center text-white ${color}`}
+          className={`flex h-14 w-14 items-center justify-center rounded-full text-2xl text-white ${color}`}
         >
           {icon}
         </div>

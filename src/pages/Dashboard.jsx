@@ -1,5 +1,9 @@
 import QuickActions from "../components/dashboard/QuickActions";
 import RecentContacts from "../components/dashboard/RecentContacts";
+import StatsCard from "../components/dashboard/StatsCard";
+import { useContacts } from "../components/context/ContactContext";
+import ContactStatusChart from "../components/dashboard/charts/ContactStatusChart";
+import CompanyChart from "../components/dashboard/charts/CompanyChart";
 import {
   FaUsers,
   FaUserPlus,
@@ -7,10 +11,9 @@ import {
   FaClipboardCheck,
 } from "react-icons/fa";
 
-import StatsCard from "../components/dashboard/StatsCard";
-import contacts from "../data/contacts";
-
 function Dashboard() {
+  const { contacts } = useContacts();
+
   const totalContacts = contacts.length;
 
   const totalLeads = contacts.filter(
@@ -26,12 +29,16 @@ function Dashboard() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold">Welcome Back 👋</h1>
+        <h1 className="text-4xl font-bold">
+          Welcome Back 👋
+        </h1>
 
-        <p className="text-gray-500 mt-2">Here's an overview of your CRM.</p>
+        <p className="mt-2 text-gray-500">
+          Here's an overview of your CRM.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         <StatsCard
           title="Contacts"
           value={totalContacts}
@@ -60,17 +67,13 @@ function Dashboard() {
           color="bg-purple-500"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {/* Stats Cards */}
+       <div className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <ContactStatusChart contacts={contacts} />
+        <CompanyChart contacts={contacts} />
       </div>
-
       <QuickActions />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {/* Stats Cards */}
-      </div>
-
-      <RecentContacts />
+      <RecentContacts contacts={contacts} />
     </>
   );
 }
